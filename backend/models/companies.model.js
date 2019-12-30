@@ -8,7 +8,7 @@ const CompanyScehma = new Schema({
     JobRequire : {type:String},
     CompanyDescribe : {type:String},
     JobStatus:{type:String},
-    // possibility : {type:Boolean},
+    possibility : {type:Boolean},
     date: {type:Date, required:true} 
    },{
         timestamps:true,

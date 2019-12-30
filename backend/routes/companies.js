@@ -9,7 +9,7 @@ router.route('/').get((req,res) => {
 
 
 router.route('/add').post((req,res)=> { 
-    const companyName = req.body.companyName;
+    const CompanyName = req.body.CompanyName;
     const JobTitle = req.body.JobTitle;
     const JobRequire = req.body.JobRequire;
     const CompanyDescribe = req.body.CompanyDescribe;
@@ -18,7 +18,7 @@ router.route('/add').post((req,res)=> {
     const date = Date.parse(req.body.date);
 
     const newCompany = new Company({
-        companyName,
+        CompanyName,
         JobTitle,
         JobRequire,
         CompanyDescribe,
@@ -39,7 +39,7 @@ router.route('/:id').get((req,res)=> {
     .catch(err => res.status(400).json('Error:' + err));
 });//37:34
 
-router.route('/id').delete((req,res) => {
+router.route('/:id').delete((req,res) => {
     Company.findByIdAndDelete(req.params.id)
     .then(() => res.json('job deleted.'))
     .catch(err => res.status(400).json('Error:' + err));
@@ -47,8 +47,8 @@ router.route('/id').delete((req,res) => {
 
 router.route('/update/:id').post((req,res)=>{ //39:30
     Company.findById(req.params.id)
-    .then(comanies =>{
-        companies.companyName = req.body.companyName;
+    .then(companies =>{
+        companies.CompanyName = req.body.CompanyName;
         companies.JobTitle = req.body.JobTitle;
         companies.JobRequire = req.body.JobRequire;
         companies.CompanyDescribe = req.body.CompanyDescribe;
@@ -56,7 +56,7 @@ router.route('/update/:id').post((req,res)=>{ //39:30
         companies.possibility = Boolean(req.body.possibility);
         companies.date = Date.parse(req.body.date);
 
-        comanies.save()
+        companies.save()
             .then(()=> res.json("Company update!"))
             .catch(err => res.status(400).json('Error:' + err));
 
