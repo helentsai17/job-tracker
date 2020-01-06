@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Card from './CompanyCard';
+
+
+
+const Card = props => (
+    <tr>
+        <td>{props.company.CompanyName}</td>
+        <td>{props.company.JobTitle}</td>
+        <td>{props.company.CompanyName}</td>
+        <td>{props.company.date.substring(0,10)}</td>
+        <td>
+            <Link to={"/edit/" + props.company._id}>edit</Link> | <a href='#' onClick={() => { props.deleteCompany(props.company._id) }} >delecte</a>
+        </td>
+    </tr>
+)
 
 
 export default class CompanyApplyList extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         // use for delelte 
         this.deleteCompany = this.deleteCompany.bind(this);
 
-        this.state = { companies: [] }
+        this.state = { companies: [] };
     }
+
     componentDidMount() {
         axios.get('http://localhost:5000/companies/')
             .then(response => {
@@ -29,17 +43,36 @@ export default class CompanyApplyList extends Component {
             .then(res => console.log(res.data))
 
         // delete from the frontend 
-        this.setState({ companies: this.state.companies.filter(el => el._id !== id) })
+        this.setState({
+            companies: this.state.companies.filter(el => el._id !== id)
+        })
 
+    }
+
+    companiesList() {
+        return this.state.companies.map(currentCompany => {
+            return <Card company={currentCompany} deleteCompany={this.deleteCompany} key={currentCompany._id} />;
+        })
     }
 
     render() {
         return (
-            <div className="row">
-                <div className = "col-md-3">
-                    
-                    <Card />
-                </div>
+            <div>
+                <h3>Company List</h3>
+                <table className="table">
+                    <thead className="thead-light">
+                        <tr>
+                            <th>company Name</th>
+                            <th>job title</th>
+                            <th>Required</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.companiesList()}
+                    </tbody>
+                </table>
             </div>
         );
     }

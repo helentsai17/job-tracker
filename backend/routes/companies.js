@@ -4,7 +4,7 @@ let Company = require('../models/companies.model'); // line for importing schma
 router.route('/').get((req,res) => {
     Company.find()
     .then(companies => res.json(companies))
-    .catch(err => res.status(400).json('Error:' + err))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
